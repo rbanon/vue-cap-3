@@ -44,10 +44,11 @@ export default {
     respuesta(r){
       if(r==="yes"){
         return this.yes[Math.floor(Math.random() * this.yes.length)]
+      } else if(r==="no"){
+        return this.no[Math.floor(Math.random() * this.no.length)]
+      } else {
+        return "Quizáss"
       }
-        else{
-          return this.no[Math.floor(Math.random() * this.no.length)]
-        }
      }
   },
   watch: {
