@@ -1,31 +1,63 @@
 <template>
-  <img src="https://via.placeholder.com/250" alt="bg">
+  <img v-if="img" :src="img" alt="bg">
   <div class="bg-dark"></div>
   <div class="indecision-container">
     <input v-model="question" type="text" placeholder="Hazme una pregunta">
     <p>Recuerda terminar con un signo de interrogación (?)</p>
 
-    <div>
+    <div v-if="isValidQuestion">
       <h2>{{question}}</h2>
-      <h1>Sí, No ... pensando</h1>
+      <h1>{{answer}}</h1>
     </div>
   </div>
 </template>
 
 <script>
+
 export default {
   data(){
     //question
     return {
-      question: null
+      question: null,
+      answer:null,
+      img:null,
+      isValidQuestion:false,
+      yes: ["Sí", "Por supuesto", "Claro que sí", "No lo dudes"],
+      no: ["No", "Ni hablar", "Ni lo sueñes", "Probablemente no"],
+      
     }
 
   },
-  watch: {
-      question(value,oldValue){
-        if (!value.endsWith("?")) return
-        // TODO: Realizar petición http
+  methods:{
+    async getAnswer(){
+      this.answer = "Pensando..."
+
+      const {answer, image} = await fetch("https://yesno.wtf/api")
+        .then(r => r.json())
+      
+        console.log(answer)
+
+        //this.answer = (answer==="yes")?"Sí":"No"
+        this.answer = this.respuesta(answer)
+        this.img = image
+    },
+    respuesta(r){
+      if(r==="yes"){
+        return this.yes[Math.floor(Math.random() * this.yes.length)]
       }
+        else{
+          return this.no[Math.floor(Math.random() * this.no.length)]
+        }
+     }
+  },
+  watch: {
+    question(value){
+      this.isValidQuestion = false
+      if (!value.endsWith("?")) return
+      this.isValidQuestion = true
+      // TODO: Realizar petición http
+      this.getAnswer()
+    }
     }
 
 }
