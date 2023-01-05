@@ -47,7 +47,7 @@ export default {
       } else if(r==="no"){
         return this.no[Math.floor(Math.random() * this.no.length)]
       } else {
-        return "Quizáss"
+        return "Quizás"
       }
      }
   },
