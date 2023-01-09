@@ -73,6 +73,19 @@ describe("Counter component",() =>{
         })
 
         expect(wrapper.find("h2").text()).toBe(title)
+    }),
+
+    test("Debe de mostrar la pro title", () => {
+
+        const title ="Hola mundo!!!"
+
+        const wrapper = shallowMount(Counter, {
+            props: {
+                title
+            }
+        })
+        //console.log(wrapper.html())
+        expect (wrapper.find("h2").text()).toBe(title)
     })
 
 })
